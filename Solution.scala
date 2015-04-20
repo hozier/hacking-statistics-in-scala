@@ -39,43 +39,6 @@ object SUM {
   // overview: creates a data structure to contain a joint probability 
   // and initializes all class variables to a default probability of 1
 
-  var generate:List[Double] = List[Double]()
-  var casing = ""
-  for(k <- 0 to 5){
-    generate = generate :+ NO_VALUE
-    casing += "x"+k+", " 
-  }
-
-  casing = casing.substring(0, casing.length-2)
-
-  // http://stackoverflow.com/questions/15349439/how-to-append-or-prepend-an-element-to-a-tuple-in-scala
-  val tupadd = for (n <- 2 to 20) yield {
-    val t = (0 until n).map(i => ('A'+i).toChar).mkString(", ")
-    val u = ('A'+n).toChar
-    val i = (0 until n).map(i => "x._"+(i+1)).mkString(", ")
-    List(
-      s"implicit class TupOps$n[$t](val x: ($t)) extends AnyVal {",
-      s"  def :+[$u](y: $u) = ($i, y)",
-      s"  def +:[$u](y: $u) = (y, $i)",
-      s"  def :+[$u](a: $u) = ($i, a)",
-      s"  def +:[$u](a: $u) = (a, $i)",
-      "}"
-    ).mkString("\n")
-  }
-
-
-  implicit class TupOps2[A, B](val x: (A, B)) extends AnyVal {
-    def :+[C](y: C) = (x._1, x._2, y)
-    def +:[C](y: C) = (y, x._1, x._2)
-    def :+[C, D](y: C, a: D) = (x._1, x._2, y, a)
-    def +:[C, D](y: C, a: D) = (y, x._1, x._2, a)
-  }
-
-
-
-  printf("==>     (%s)", (1,1) :+ 1:+ 1)
-
-
   // BUILD(generate)
 
   case class Probability(B:Double = b, G:Double = g, W_BD:Double = w, D_BG:Double = d, F_D:Double = f , R_D:Double = r)
